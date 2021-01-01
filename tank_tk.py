@@ -161,9 +161,6 @@ def _refreshplot():
 button1 = tkinter.Button(master=root, text="Quit", command=_quit)
 button1.pack(side=tkinter.LEFT)
 
-button2 = tkinter.Button(master=root, text="Refresh", command=_refreshplot)
-button2.pack(side=tkinter.LEFT)
-
 root.after(500, _refreshplot)
 
 tkinter.mainloop()
