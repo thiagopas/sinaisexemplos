@@ -1,11 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from time import time
+import datetime
 
 
-def myplot(xticks=None, yticks=None, x=[], y=[], save=False,
-           axis=None, ax=None, wait=False, title=None, dirac=None,
+class ImgCounter:
+    img_counter = 0
+
+
+def myplot(xticks=None, yticks=None, x=[], y=[], save=False, color='blue',
+           axis=None, ax=None, wait=False, title=None, dirac=None, hold=False,
            xlabel='', ylabel='', legend=None, text=None, linewidth=3):
     if wait is True:
         plt.pause(.01)
@@ -14,13 +18,14 @@ def myplot(xticks=None, yticks=None, x=[], y=[], save=False,
         obj = plt.subplots(1, 1)[1]
     else:
         obj = ax
-    obj.cla()
+    if hold is False:
+        obj.cla()
     if title is not None:
         obj.set_title(title)
     obj.plot([-1e10, 1e10], [0, 0], 'k', linewidth=linewidth)
     obj.plot([0, 0], [-1e10, 1e10], 'k', linewidth=linewidth)
     if dirac is None:
-        obj.plot(x, y, 'blue', linewidth=linewidth)
+        obj.plot(x, y, color, linewidth=linewidth)
     else:
         y_ = np.copy(y)
         for i in range(len(dirac[0])):
@@ -28,10 +33,10 @@ def myplot(xticks=None, yticks=None, x=[], y=[], save=False,
             y_[t_pulse] = (y[t_pulse-1] + y[t_pulse+1]) / 2
             arrow = mpl.patches.FancyArrowPatch(posA=(dirac[0][i], 0), posB=(dirac[0][i], dirac[1][i]),
                                                 arrowstyle='-|>', mutation_scale=30,
-                                                linewidth=linewidth, color='blue')
+                                                linewidth=linewidth, color=color)
             obj.add_patch(arrow)
-            obj.plot([dirac[0][i], dirac[0][i]], [0, dirac[1][i]], 'blue', linewidth=linewidth)
-        obj.plot(x, y_, 'blue', linewidth=linewidth)
+            obj.plot([dirac[0][i], dirac[0][i]], [0, dirac[1][i]], color, linewidth=linewidth)
+        obj.plot(x, y_, color, linewidth=linewidth)
     obj.grid(True)
     if xticks is not None:
         obj.set_xticks(xticks)
@@ -53,4 +58,7 @@ def myplot(xticks=None, yticks=None, x=[], y=[], save=False,
     plt.draw()
     plt.show()
     if wait is True or save is True:
-        plt.savefig('../temp/' + time().__str__() + '.png')
+        time_str = datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+        imgcounter = ImgCounter.img_counter
+        ImgCounter.img_counter += 1
+        plt.savefig('../temp/' + time_str + ' ' + str(imgcounter).zfill(3) + '.png')

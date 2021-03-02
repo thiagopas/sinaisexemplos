@@ -111,8 +111,8 @@ class Convolver:
 
 
 c = Convolver(-10, 10, .01, .1)
-c.set_x(u(c.t)*c.t)
-c.set_h(u(c.t)*c.t)
+c.set_x(u(c.t))
+c.set_h(u(c.t))
 c.convolve()
 
 
