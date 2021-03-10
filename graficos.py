@@ -10,7 +10,7 @@ class ImgCounter:
 
 def myplot(xticks=None, yticks=None, x=[], y=[], save=False, color='blue',
            axis=None, ax=None, wait=False, title=None, dirac=None, hold=False,
-           xlabel='', ylabel='', legend=None, text=None, linewidth=3):
+           xlabel='', ylabel='', legend=None, text=None, linewidth=2, axes=True):
     if wait is True:
         plt.pause(.01)
         plt.waitforbuttonpress()
@@ -22,8 +22,9 @@ def myplot(xticks=None, yticks=None, x=[], y=[], save=False, color='blue',
         obj.cla()
     if title is not None:
         obj.set_title(title)
-    obj.plot([-1e10, 1e10], [0, 0], 'k', linewidth=linewidth)
-    obj.plot([0, 0], [-1e10, 1e10], 'k', linewidth=linewidth)
+    if axes is not False:
+        obj.plot([-1e10, 1e10], [0, 0], 'k', linewidth=linewidth)
+        obj.plot([0, 0], [-1e10, 1e10], 'k', linewidth=linewidth)
     if dirac is None:
         obj.plot(x, y, color, linewidth=linewidth)
     else:
