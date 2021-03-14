@@ -23,8 +23,8 @@ def myplot(xticks=None, yticks=None, x=[], y=[], save=False, color='blue',
     if title is not None:
         obj.set_title(title)
     if axes is not False:
-        obj.plot([-1e10, 1e10], [0, 0], 'k', linewidth=linewidth)
-        obj.plot([0, 0], [-1e10, 1e10], 'k', linewidth=linewidth)
+        obj.plot([-1e10, 1e10], [0, 0], 'k', linewidth=2)
+        obj.plot([0, 0], [-1e10, 1e10], 'k', linewidth=2)
     if dirac is None:
         obj.plot(x, y, color, linewidth=linewidth)
     else:

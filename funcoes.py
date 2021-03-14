@@ -2,7 +2,7 @@ import numpy as np
 
 
 def u(t):
-    return (t >= 0) + 0.0
+    return (t > 0) + 0.0
 
 def window(t, min, max):
     return (t >= min) * (t < max)
