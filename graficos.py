@@ -7,6 +7,15 @@ import datetime
 class ImgCounter:
     img_counter = 0
 
+def piyaxis(ax):
+    ticks_loc = ax.get_yticks().tolist()
+    ax.set_yticks(ax.get_yticks().tolist())
+    ax.set_yticklabels(["{:.1f}".format(y / np.pi) + 'π' for y in ticks_loc])
+
+def pixaxis(ax):
+    ticks_loc = ax.get_xticks().tolist()
+    ax.set_xticks(ax.get_xticks().tolist())
+    ax.set_xticklabels(["{:.0f}".format(x / np.pi) + 'π' for x in ticks_loc])
 
 def myplot(xticks=None, yticks=None, x=[], y=[], save=False, color='blue',
            axis=None, ax=None, wait=False, title=None, dirac=None, hold=False,
