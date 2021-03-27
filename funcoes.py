@@ -4,6 +4,9 @@ import numpy as np
 def u(t):
     return (t > 0) + 0.0
 
+def exp_u(t, a):
+    return np.exp(-a * t) * ((t > 0) + 0.0)
+
 def window(t, min, max):
     return (t >= min) * (t < max)
 
@@ -12,6 +15,9 @@ def integrate(t, x):
     for i in np.arange(1, len(result)):
         result[i] = result[i] + result[i-1]
     return result
+
+def sinc(x, eps=1e-10):
+    return np.divide(np.sin(x+np.abs(eps)), x+np.abs(eps))
 
 def conv(x, h, t):
     y_full = np.convolve(x, h) * (t[1] - t[0])
