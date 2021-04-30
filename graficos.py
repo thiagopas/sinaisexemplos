@@ -19,7 +19,8 @@ def pixaxis(ax):
 
 def myplot(xticks=None, yticks=None, x=[], y=[], save=False, color='blue',
            axis=None, ax=None, wait=False, title=None, dirac=None, hold=False,
-           xlabel='', ylabel='', legend=None, text=None, linewidth=2, axes=True):
+           xlabel='', ylabel='', legend=None, text=None, linewidth=2, axes=True,
+           semilogx=False, semilogy=False):
     if wait is True:
         plt.pause(.01)
         plt.waitforbuttonpress()
@@ -63,8 +64,8 @@ def myplot(xticks=None, yticks=None, x=[], y=[], save=False, color='blue',
         obj.legend(legend, prop={'size': 15})
     if text is not None:
         obj.text(.2, 2.2, text, fontsize=15)
-    h.set_fontsize(15)
-    h.set_rotation(0)
+    #h.set_fontsize(15)
+    #h.set_rotation(0)
     plt.draw()
     plt.show()
     if wait is True or save is True:

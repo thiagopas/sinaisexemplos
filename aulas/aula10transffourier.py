@@ -6,10 +6,7 @@ import time
 
 def dn(n, t0):
     n = float(n)
-    if n == 0:
-        return .5
-    else:
-        return np.sin(n*.5*np.pi)/(n*np.pi)
+    return np.sin((n+1e-10)*np.pi*.0025/t0)/((n+1e-10)*np.pi)
 
 
 def dn_n(nvec, t0):
@@ -84,7 +81,7 @@ for i in np.arange(0, 10, 1):
     x = square(t, t0, -.005/4, 0., 1., .5/(i+1))
     ax_abs.cla()
     ax_abs.stem(w0*n, np.abs(d))
-    ax_abs.axis([-3*w0_0, 3*w0_0, -.05, .55])
+    ax_abs.axis([-3*w0_0, 3*w0_0, -.1*np.max(np.abs(d)), 1.1*np.max(np.abs(d))])
     ax_abs.legend(['$|D_n|$'])
     ax_abs.grid()
     xtick = np.arange(-3, 4) * w0_0
@@ -97,7 +94,7 @@ for i in np.arange(0, 10, 1):
     ax_ang.set_xticks(xtick)
     pixaxis(ax_ang)
     plt.grid()
-    plotit(ax=ax_x, x=t, y=x, axis=[-.05, .05, -.1, 1.1], axes=False, save=False, legend=['x(t)'])
+    plotit(ax=ax_x, x=t, y=x, axis=[-.05, .05, -.1, 1.1], axes=False, save=True, legend=['x(t)'])
 
 # Aperiódico com espectro contínuo
 width = .0025
@@ -189,3 +186,110 @@ ax_ang.set_yticks([-np.pi, 0, np.pi])
 piyaxis(ax_ang)
 plotit(ax=ax_ang, x=[], y=[], hold=True, save=True)
 
+# sinc no tempo
+sp = plt.subplots(2, 1)
+ax_x = sp[0].axes[0]
+ax_spec = sp[0].axes[1]
+t = np.arange(-6*np.pi, 6*np.pi, .01)
+w0 = 1
+x = (w0 / np.pi) * sinc(w0*t)
+xtick = np.arange(-6*np.pi, 6*np.pi, np.pi)
+plotit(ax=ax_x, x=t, y=x, axis=[t[0], t[-1], np.min(x)*1.1, np.max(x)*1.1], axes=False, save=True, legend=['$x(t)$'], xlabel='$t$', xticks=xtick)
+w = np.arange(-4, 4, 1e-3)
+x = u(w+w0) - u(w-w0)
+#xtick = np.arange(-8*np.pi, 9*np.pi, np.pi*2)
+plotit(ax=ax_spec, x=w, y=np.abs(x), axis=[w[0], w[-1], -.1, 1.1], axes=False, save=True, legend=['$X(\omega)$'], xlabel='$\omega$')
+#ax_spec.set_xticklabels(['$-8\pi/\\tau$', '$-6\pi/\\tau$', '$-4\pi/\\tau$', '$-2\pi/\\tau$', '0', '$2\pi/\\tau$', '$4\pi/\\tau$', '$6\pi/\\tau$', '$8\pi/\\tau$'])
+ax_spec.set_yticks([0, 1])
+pixaxis(ax_x)
+
+
+# sinc no tempo
+sp = plt.subplots(2, 1)
+ax_x = sp[0].axes[0]
+ax_spec = sp[0].axes[1]
+t = np.arange(-6*np.pi, 6*np.pi, .01)
+w0 = 1
+x = (w0 / np.pi) * sinc(w0*t)
+xtick = np.arange(-6*np.pi, 6*np.pi, np.pi)
+plotit(ax=ax_x, x=t, y=x, axis=[t[0], t[-1], np.min(x)*1.1, np.max(x)*1.1], axes=False, save=True, legend=['$x(t)$'], xlabel='$t$', xticks=xtick)
+w = np.arange(-4, 4, 1e-3)
+x = u(w+w0) - u(w-w0)
+#xtick = np.arange(-8*np.pi, 9*np.pi, np.pi*2)
+plotit(ax=ax_spec, x=w, y=np.abs(x), axis=[w[0], w[-1], -.1, 1.1], axes=False, save=True, legend=['$X(\omega)$'], xlabel='$\omega$')
+#ax_spec.set_xticklabels(['$-8\pi/\\tau$', '$-6\pi/\\tau$', '$-4\pi/\\tau$', '$-2\pi/\\tau$', '0', '$2\pi/\\tau$', '$4\pi/\\tau$', '$6\pi/\\tau$', '$8\pi/\\tau$'])
+ax_spec.set_yticks([0, 1])
+pixaxis(ax_x)
+
+# Deslocamento no tempo
+sp = plt.subplots(3, 1)
+ax_x = sp[0].axes[0]
+ax_spec = sp[0].axes[1]
+ax_ang = sp[0].axes[2]
+for d in np.arange(0, .6, .02):
+    t = np.arange(-3, 3, .01)
+    x = u(t-d+.5) - u(t-d-.5)
+    plotit(ax=ax_x, x=t, y=x, axis=[t[0], t[-1], -.1, np.max(x) * 1.1], axes=False, save=False,
+           legend=['$y(t)$'], xlabel='$t$')
+    w = np.arange(-24, 24, 1e-3)
+    x = sinc(w/2) * np.exp(-1j*w*d)
+    # xtick = np.arange(-8*np.pi, 9*np.pi, np.pi*2)
+    plotit(ax=ax_spec, x=w, y=np.abs(x), axis=[w[0], w[-1], -.1, 1.1], axes=False, save=False, legend=['$|Y(\omega)|$'],
+           xlabel='$\omega$')
+    if d == 0:
+        ang = np.sign(w)*np.angle(x)
+    else:
+        ang = np.angle(x)
+    plotit(ax=ax_ang, x=w, y=ang, axis=[w[0], w[-1], -np.pi*1.1, np.pi*1.1], axes=False, save=False, legend=['$∠Y(\omega)$'],
+           xlabel='$\omega$')
+    # ax_spec.set_xticklabels(['$-8\pi/\\tau$', '$-6\pi/\\tau$', '$-4\pi/\\tau$', '$-2\pi/\\tau$', '0', '$2\pi/\\tau$', '$4\pi/\\tau$', '$6\pi/\\tau$', '$8\pi/\\tau$'])
+    ax_ang.set_yticks([-np.pi, 0, np.pi])
+    piyaxis(ax_ang)
+    ax_x.set_title('y(t) = ret(t-' + "{:.2f}".format(d) + ')')
+    plotit(ax=ax_ang, x=[], y=[], save=True, axes=False, hold=True, wait=False)
+
+# Convolução no tempo
+sp = plt.subplots(3, 1)
+ax_x = sp[0].axes[0]
+ax_spec = sp[0].axes[1]
+ax_ang = sp[0].axes[2]
+t = np.arange(-3, 3, .01)
+w = np.arange(-40, 40, 1e-3)
+x = u(t+.5) - u(t-.5)
+plotit(ax=ax_x, x=t, y=x, axis=[t[0], t[-1], -.1, np.max(x) * 1.1], axes=False, save=False,
+       legend=['$x(t)$'], xlabel='$t$', wait=True)
+x_w = sinc(w/2)
+plotit(ax=ax_spec, x=w, y=np.abs(x_w), axis=[w[0], w[-1], -.1, 1.1], axes=False, save=False, legend=['$|X(\omega)|$'],
+       xlabel='$\omega$')
+ang = np.angle(x_w)
+plotit(ax=ax_ang, x=w, y=ang*np.sign(w), axis=[w[0], w[-1], -np.pi*1.1, np.pi*1.1], axes=False, save=False, legend=['$∠X(\omega)$'],
+       xlabel='$\omega$')
+ax_ang.set_yticks([-np.pi, 0, np.pi])
+piyaxis(ax_ang)
+plotit(ax=ax_ang, x=[], y=[], save=True, axes=False, hold=True, wait=False)
+
+h = 6 * sinc(6*np.pi*t)
+plotit(ax=ax_x, x=t, y=h, axis=[t[0], t[-1], np.min(h)*1.1, np.max(h) * 1.1], axes=False, save=False,
+       legend=['$h(t)$'], xlabel='$t$')
+h_w = u(w+6*np.pi) - u(w-6*np.pi)
+plotit(ax=ax_spec, x=w, y=np.abs(h_w), axis=[w[0], w[-1], -.1, 1.1], axes=False, save=False, legend=['$|H(\omega)|$'],
+       xlabel='$\omega$')
+ang = np.angle(h_w)
+plotit(ax=ax_ang, x=w, y=ang*np.sign(w), axis=[w[0], w[-1], -np.pi*1.1, np.pi*1.1], axes=False, save=False, legend=['$∠H(\omega)$'],
+       xlabel='$\omega$')
+ax_ang.set_yticks([-np.pi, 0, np.pi])
+piyaxis(ax_ang)
+plotit(ax=ax_ang, x=[], y=[], save=True, axes=False, hold=True, wait=False)
+
+y = conv(x, h, t)
+plotit(ax=ax_x, x=t, y=y, axis=[t[0], t[-1], np.min(y)*1.1, np.max(y) * 1.1], axes=False, save=False,
+       legend=['$y(t)$'], xlabel='$t$')
+y_w = x_w * h_w
+plotit(ax=ax_spec, x=w, y=np.abs(y_w), axis=[w[0], w[-1], -.1, 1.1], axes=False, save=False, legend=['$|Y(\omega)|$'],
+       xlabel='$\omega$')
+ang = np.angle(y_w) * (u(w+6*np.pi) - u(w-6*np.pi))
+plotit(ax=ax_ang, x=w, y=ang*np.sign(w), axis=[w[0], w[-1], -np.pi*1.1, np.pi*1.1], axes=False, save=False, legend=['$∠Y(\omega)$'],
+       xlabel='$\omega$')
+ax_ang.set_yticks([-np.pi, 0, np.pi])
+piyaxis(ax_ang)
+plotit(ax=ax_ang, x=[], y=[], save=True, axes=False, hold=True, wait=False)
