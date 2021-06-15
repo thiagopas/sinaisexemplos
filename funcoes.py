@@ -26,6 +26,13 @@ def conv(x, h, t):
     y = y[:len(t)]
     return y
 
+def conv_disc(x, h, t):
+    y_full = np.convolve(x, h) * (t[1] - t[0])
+    idx = np.count_nonzero(t < 0)
+    y = y_full[idx:]
+    y = y[:len(t)]
+    return y
+
 def movavgc(t, x, T):
     ts = t[1] - t[0]
     t0 = np.argmin(np.abs(t - 0))
