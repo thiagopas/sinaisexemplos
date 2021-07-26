@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def x(t):
-    return (u(t)*1.0 - u(t-3)*1.0)*np.sin(t*np.pi/3)
+    return (u(t)*1.0 - u(t-3)*1.0)*t
 
 t = np.arange(-5, 5, 0.01)
 plt.figure()
@@ -16,3 +16,8 @@ plt.grid()
 plt.figure()
 plt.plot(t, x(-t+2.0))
 plt.grid()
+plt.figure()
+plt.plot(t, x(-t+4.0), linewidth=2)
+plt.grid()
+plt.xlabel('t [s]')
+plt.legend(['x(-t+4)'], fontsize='large')
