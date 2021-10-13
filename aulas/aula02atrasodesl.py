@@ -73,3 +73,47 @@ xid = xfunc(3 - t)
 plotit(text='x(3 - t)', ax=ax_xid, x=t, y=xid, axis=axis, xticks=xticks, wait=True)
 xid = xfunc(4 - t)
 plotit(text='x(4 - t)', ax=ax_xid, x=t, y=xid, axis=axis, xticks=xticks, wait=True)
+
+
+# Quizz
+def x_quizz(t):
+    return (2/3)*(u(t)-u(t-3)) * t
+sp = plt.subplots(1, 2)
+ax_x = sp[0].axes[0]
+ax_y = sp[0].axes[1]
+plotit(title='x(t)', ax=ax_x, x=t, y=x_quizz(t), axis=axis, xticks=xticks, wait=False)
+plotit(title='y(t)', ax=ax_y, x=t, y=x_quizz(t-2), axis=axis, xticks=xticks, wait=False)
+plt.gcf().set_size_inches(7.41, 2.45)
+
+sp = plt.subplots(1, 2)
+ax_x = sp[0].axes[0]
+ax_y = sp[0].axes[1]
+plotit(title='x(t)', ax=ax_x, x=t, y=x_quizz(t), axis=axis, xticks=xticks, wait=False)
+plotit(title='y(t)', ax=ax_y, x=t, y=x_quizz(t+2), axis=axis, xticks=xticks, wait=False)
+plt.gcf().set_size_inches(7.41, 2.45)
+
+sp = plt.subplots(1, 2)
+ax_x = sp[0].axes[0]
+ax_y = sp[0].axes[1]
+plotit(title='x(t)', ax=ax_x, x=t, y=x_quizz(t), axis=axis, xticks=xticks, wait=False)
+plotit(title='y(t)', ax=ax_y, x=t, y=x_quizz(-t+2), axis=axis, xticks=xticks, wait=False)
+plt.gcf().set_size_inches(7.41, 2.45)
+
+sp = plt.subplots(1, 2)
+ax_x = sp[0].axes[0]
+ax_y = sp[0].axes[1]
+plotit(title='x(t)', ax=ax_x, x=t, y=x_quizz(t), axis=axis, xticks=xticks, wait=False)
+plotit(title='y(t)', ax=ax_y, x=t, y=x_quizz(-t-2), axis=axis, xticks=xticks, wait=False, )
+plt.gcf().set_size_inches(7.41, 2.45)
+
+sp = plt.subplots(1, 1)
+ax_x = sp[0].axes[0]
+x = np.zeros_like(t)
+plotit(title='x(t)', ax=ax_x, x=t, y=x, axis=axis, xticks=xticks, wait=False, dirac=[[1, 2],[2, 1]])
+plt.gcf().set_size_inches(7.41, 2.45)
+
+sp = plt.subplots(1, 1)
+ax_x = sp[0].axes[0]
+x = u(t) + u(t-2) - 2*u(t-3)
+plotit(title='x(t)', ax=ax_x, x=t, y=x, axis=axis, xticks=xticks, wait=False)
+plt.gcf().set_size_inches(7.41, 2.45)

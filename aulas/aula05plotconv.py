@@ -107,8 +107,17 @@ class Convolver:
 
 
 t = np.arange(-10, 10, .01)
-x = gaussian(t, 2, 1.5)
-c = Convolver(x, u, t, .5)
+#x = gaussian(t, 2, 1.5)
+#x = np.zeros_like(t)
+#for k in range(20):
+#    x += u(t-k)
+x = u(t) - u(t-2) + 2*(u(t-4)-u(t-7))
+def ret(t):
+    return u(t) - u(t-1)
+def meuh(t):
+    return u(t) - u(t-2)
+c = Convolver(x, meuh, t, .5)
+#c = Convolver(x, u, t, .5)
 tmin = -5
 tmax = 5
 xticks = np.arange(-10, 10, 1)

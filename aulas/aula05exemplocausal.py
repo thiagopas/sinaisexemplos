@@ -28,7 +28,7 @@ def eraselabels(ax):
     ax.set_xticklabels([dummy(x) for x in ticks_loc])
 
 def h_def(t):
-    return np.exp(-2*t) * u(t)
+    return u(t) - u(t-4)
 
 root = tkinter.Tk()
 root.wm_title("Convolution")
@@ -103,7 +103,7 @@ class Convolver:
 
 
 t = np.arange(-10, 10, .001)
-x = 4 * np.exp(-t) * u(t)
+x = (-t+1) * (u(t) - u(t-1))
 c = Convolver(x, h_def, t, .1)
 tmin = -5
 tmax = 5
