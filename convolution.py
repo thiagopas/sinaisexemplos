@@ -19,6 +19,9 @@ import numpy as np
 def u(t):
     return (t >= -1e-7) * 1.0
 
+def x(t):
+    return u(t)-u(t-2)
+
 
 root = tkinter.Tk()
 root.wm_title("Convolution")
@@ -51,7 +54,7 @@ class Convolver:
     conv_min = 0
     conv_max = 0
 
-    def __init__(self, t_ini, t_end, t_s=1, delay_inc=.5):
+    def __init__(self, t_ini, t_end, t_s=1, delay_inc=.1):
         self.t_s = t_s
         self.t = np.arange(t_ini, t_end, t_s)
         self.y = np.zeros_like(self.t)
@@ -111,8 +114,8 @@ class Convolver:
 
 
 c = Convolver(-10, 10, .01, .1)
-c.set_x(u(c.t))
-c.set_h(u(c.t))
+c.set_x(u(c.t)-u(c.t-2))
+c.set_h(u(c.t)-u(c.t-2)+2*(u(c.t-4)-u(c.t-7)))
 c.convolve()
 
 
